@@ -88,15 +88,15 @@ categories_ID_dict = {
 
 #read file names
 csv_from_zon = glob.glob("csv_from_zon\*.csv")
-
+""" 
 #array of csv files
 csv_from_zon_array = []
 #loop to create array of csv files
 for file in csv_from_zon:
     csv_from_zon_array.append(file)
-
+ """
 #loops through each csv file in the array
-for current_file in csv_from_zon_array:
+for current_file in csv_from_zon:
 
     print("Now Processing: "+ current_file[13:].title())
 
@@ -148,7 +148,7 @@ for current_file in csv_from_zon_array:
     df["JP_brand_link"] = '<a target="_blank" href=' + df["JP_brand_url"] + '><div>' + df["Brand"] + '</div></a>'
     
     #generate and export csv file
-    df.to_csv("csv_from_zon_processed\\"+current_file_name+".csv")
+    df.to_csv("csv_from_zon_processed\\"+current_file_name+"_processed.csv")
     
 
 print("Finished")
