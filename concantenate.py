@@ -18,4 +18,11 @@ print(df_octoparse.count())
 
 #df_octoparse_search = pd.read_csv(csv_from_octoparse_search[0])
 
+merge_df = df_zon_processed.merge(df_octoparse, 
+                                  left_on="ASIN", 
+                                  right_on="ASIN_from_page_url",
+                                  how="left")
+print(merge_df.count())
+merge_df.to_csv("merged.csv")
 
+merge_df.groupby(merge_df.columns.tolist(), as_index=False).size()
