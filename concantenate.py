@@ -22,7 +22,11 @@ merge_df = df_zon_processed.merge(df_octoparse,
                                   left_on="ASIN", 
                                   right_on="ASIN_from_page_url",
                                   how="left")
+
+
+
+#merge_df = pd.merge(df_zon_processed, df_octoparse, how="left", on=["ASIN", "ASIN_from_page_url"])
+
 print(merge_df.count())
 merge_df.to_csv("merged.csv")
 
-merge_df.groupby(merge_df.columns.tolist(), as_index=False).size()
