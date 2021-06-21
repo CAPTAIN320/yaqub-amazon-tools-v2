@@ -168,7 +168,9 @@ for current_file in csv_from_zon:
     #create column for Brand URLs
     df["US_brand_url"] = us_brand_url_array
     df["JP_brand_url"] = jp_brand_url_array
-
+    
+    
+    
     #create column for the clickable links
     df["US_brand_link"] = '<a target="_blank" href=' + df["US_brand_url"] + '><div>' + df["Brand"] + '</div></a>'
     df["JP_brand_link"] = '<a target="_blank" href=' + df["JP_brand_url"] + '><div>' + df["Brand"] + '</div></a>'
