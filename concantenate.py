@@ -36,27 +36,24 @@ def csv_merchant_octo(df_merchant_octo):
         
     df_merchant_octo["merchant_id_octo"] = merchant_id_octo
     print(df_merchant_octo["merchant_id_octo"])
-    return df_merchant_octo
 
-csv_merchant_octo(df_merchant_octo)
+    df_merchant_octo["business_address"] = df_merchant_octo["business_address"].astype(str)
+    country_merchant_octo = []
+    for merchant_address in df_merchant_octo["business_address"]:
+        country_merchant = merchant_address[-2:]
+        country_merchant_octo.append(country_merchant)
 
+    df_merchant_octo["country_merchant_octo"] = country_merchant_octo
 
-df_merchant_octo["business_address"] = df_merchant_octo["business_address"].astype(str)
-country_merchant_octo = []
-for merchant_address in df_merchant_octo["business_address"]:
-    country_merchant = merchant_address[-2:]
-    country_merchant_octo.append(country_merchant)
-
-df_merchant_octo["country_merchant_octo"] = country_merchant_octo
-
-merge_df = df_zon_processed.merge(df_merchant_octo, 
-                                  left_on="MerchantID", 
-                                  right_on="merchant_id_octo",
-                                  how="left")
+    merge_df = df_zon_processed.merge(df_merchant_octo, 
+                                    left_on="MerchantID", 
+                                    right_on="merchant_id_octo",
+                                    how="left")
+    return merge_df
 
     
     
-    
+merge_df = csv_merchant_octo(df_merchant_octo)
 
 
 
