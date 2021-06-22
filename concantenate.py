@@ -27,7 +27,7 @@ result = result[0][8:-1]
 print(result)
  """
 
-def csv_merchant_octo(df_merchant_octo):
+def csv_merchant_octo():
     print("hello")
     merchant_id_octo = []
     for url in df_merchant_octo["Page_URL"]:
@@ -49,32 +49,37 @@ def csv_merchant_octo(df_merchant_octo):
                                     left_on="MerchantID", 
                                     right_on="merchant_id_octo",
                                     how="left")
+    
     return merge_df
 
     
     
-merge_df = csv_merchant_octo(df_merchant_octo)
+
+
+def csv_product_octo():
+    df_product_octo["seller_address"] = df_product_octo["seller_address"].astype(str)
+    country_product_octo = []
+    for product_address in df_product_octo["seller_address"]:
+        country_product = product_address[-2:]
+        country_product_octo.append(country_product)
+
+    df_product_octo["country_product_octo"] = country_product_octo
+
+
+    merge_df = csv_merchant_octo().merge(df_product_octo,
+                            left_on="ASIN",
+                            right_on="ASIN_from_page_url",
+                            how="left")
+
+    print(merge_df.count())
+    return merge_df
+
+def merge_csv(merge_df):
+    merge_df.to_csv("concantenated\\2nd_merged.csv")
+    merge_df.to_html("html\\2nd_merged.html")
 
 
 
-
-
-df_product_octo["seller_address"] = df_product_octo["seller_address"].astype(str)
-country_product_octo = []
-for product_address in df_product_octo["seller_address"]:
-    country_product = product_address[-2:]
-    country_product_octo.append(country_product)
-
-df_product_octo["country_product_octo"] = country_product_octo
-
-
-merge_df = merge_df.merge(df_product_octo,
-                          left_on="ASIN",
-                          right_on="ASIN_from_page_url",
-                          how="left")
-
-print(merge_df.count())
-
-merge_df.to_csv("concantenated\\2nd_merged.csv")
-merge_df.to_html("html\\2nd_merged.html")
-
+csv_merchant_octo()
+merge_df = csv_product_octo()
+merge_csv(merge_df)
