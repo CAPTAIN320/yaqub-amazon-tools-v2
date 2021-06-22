@@ -152,15 +152,16 @@ for current_file in csv_from_zon:
     us_brand_url_array = []
     jp_brand_url_array = []
     #loop to create urls using Brand column for respective Amazon store
-    for key, value in df["Brand"].iteritems():
-        #replace blank spce with a "+" for each brand name
+    for value in df["Brand"]:
+        #replace blank space with "+" for each brand name
         value = value.replace(" ", "+")
         #create the urls
-        us_search_url = "https://www.amazon.com/s?rh=n%3A{}%2Cp_89%3A{}"
-        jp_search_url = "https://www.amazon.co.jp/s?rh=n%3A{}%2Cp_89%3A{}"
+        us_search_url = 'https://www.amazon.com/s?rh=n%3A{}%2Cp_89%3A{}'
+        jp_search_url = 'https://www.amazon.co.jp/s?rh=n%3A{}%2Cp_89%3A{}'
         #concantenate category ID and Brand names into url
         us_brand_url = us_search_url.format(selected_US_category,value)
         jp_brand_url = jp_search_url.format(selected_JP_category,value)
+        
         #append brand urls
         us_brand_url_array.append(us_brand_url)
         jp_brand_url_array.append(jp_brand_url)
@@ -174,6 +175,7 @@ for current_file in csv_from_zon:
     #create column for the clickable links
     df["US_brand_link"] = '<a target="_blank" href=' + df["US_brand_url"] + '><div>' + df["Brand"] + '</div></a>'
     df["JP_brand_link"] = '<a target="_blank" href=' + df["JP_brand_url"] + '><div>' + df["Brand"] + '</div></a>'
+    
     
     #generate and export csv file
     df.to_csv("csv_from_zon_processed\\"+current_file_name+"_processed.csv")

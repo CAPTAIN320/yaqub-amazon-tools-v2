@@ -8,3 +8,4 @@ Beauty & Personal Care_merchant_url
 Board Games_merchant_url
 Appliances_merchant_url
 Boy Jewelry_merchant_url
+Tools & Home Improvement_merchant_url

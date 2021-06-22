@@ -83,7 +83,7 @@ def export_csv(merge_df):
     merge_df.to_csv("concantenated\\2nd_merged.csv")
     
 def export_html(merge_df):
-    merge_df.to_html("html\\2nd_merged.html")
+    merge_df.to_html("html\\2nd_merged.html", escape=False)
 
 
 
