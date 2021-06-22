@@ -67,19 +67,29 @@ def csv_product_octo():
 
 
     merge_df = csv_merchant_octo().merge(df_product_octo,
-                            left_on="ASIN",
-                            right_on="ASIN_from_page_url",
-                            how="left")
+                                    left_on="ASIN",
+                                    right_on="ASIN_from_page_url",
+                                    how="left")
 
     print(merge_df.count())
     return merge_df
 
-def merge_csv(merge_df):
+
+def merge_csv(merge_df):# (ouptut_of_merchant, output_of_product)
+    print()
+    
+
+def export_csv(merge_df):
     merge_df.to_csv("concantenated\\2nd_merged.csv")
+    
+def export_html(merge_df):
     merge_df.to_html("html\\2nd_merged.html")
 
 
 
 csv_merchant_octo()
 merge_df = csv_product_octo()
-merge_csv(merge_df)
+export_csv(merge_df)
+export_html(merge_df)
+
+
