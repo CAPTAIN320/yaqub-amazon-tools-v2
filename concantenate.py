@@ -11,13 +11,13 @@ csv_merchant_octo = glob.glob("csv_merchant_octo\*_merchant_octo.csv")
 csv_product_octo = glob.glob("csv_product_octo\*_product_octo.csv")
 
 
-df_zon_processed = pd.read_csv("csv_from_zon_processed\\Men Hoodies_processed.csv")
+df_zon_processed = pd.read_csv("csv_from_zon_processed\\Women Jewelry_processed.csv")
 print(df_zon_processed.count())
 
-df_merchant_octo = pd.read_csv("csv_merchant_octo\\Men Hoodies_merchant_octo.csv")
+df_merchant_octo = pd.read_csv("csv_merchant_octo\\Women Jewelry_merchant_octo.csv")
 print(df_merchant_octo.count())
 
-df_product_octo = pd.read_csv("csv_product_octo\\Men Hoodies_product_url_octo.csv")
+df_product_octo = pd.read_csv("csv_product_octo\\Women Jewelry_product_octo.csv")
 
 """ Better way of finding merchant_ID using regex
 string = "https://www.amazon.com/sp?_encoding=UTF8&asin=&isAmazonFulfilled=1&isCBA=&marketplaceID=ATVPDKIKX0DER&orderID=&protocol=current&seller=A12AWXEV5DO25C&sshmPath="
@@ -83,6 +83,13 @@ def export_csv(merge_df):
     merge_df.to_csv("concantenated\\2nd_merged.csv")
     
 def export_html(merge_df):
+    merge_df = merge_df[["Brand", 
+                         "SoldBy", 
+                         "MerchantID", 
+                         "US_brand_link", 
+                         "JP_brand_link", 
+                         "country_merchant_octo",
+                         "country_product_octo"]]
     merge_df.to_html("html\\2nd_merged.html", escape=False)
 
 
