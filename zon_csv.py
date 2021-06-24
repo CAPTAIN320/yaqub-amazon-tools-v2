@@ -118,23 +118,50 @@ for current_file in csv_from_zon:
     
     #retains only ASINs with a Brand
     df = df[df["Brand"].notnull()]
+    
+    df = df.sort_values(["MerchantID", "Brand"])
 
     #removes duplicate Brand
-    df = df.drop_duplicates(subset=["Brand"])
-
+    df = df.drop_duplicates(subset=["Brand"], keep="first")
+    
+    
+    merchant_url_array = []
+    for id in df["MerchantID"]:
+        url = "https://www.amazon.com/gp/help/seller/at-a-glance.html/ref=dp_merchant_link?ie=UTF8&seller={}&isAmazonFulfilled=1"
+        merchant_url = url.format(id)
+        merchant_url_array.append(merchant_url)
+    
+    df["merchant_url"] = merchant_url_array
+    
+    #datafram with only ASINs with a MerchantID
+    df_merchant_id = df[df["MerchantID"].notnull()]
+    df_merchant_id["merchant_url"].to_csv("csv_merchant_url\\" + current_file_name + "_merchant_url.csv",
+                                           index=False)
+    print("exported ",df_merchant_id["merchant_url"].count()," merchant urls")
+    
+    #dataframe with only ASINs without a MerchantID
+    df_no_merchant_id = df[df["MerchantID"].isnull()]
+    #removes ASINs sold by Amazon
+    #print("There are ",df_no_merchant_id["SoldBy"].value_counts()["Amazon.com"]," Amazon.com")
+    df_no_merchant_id = df_no_merchant_id[df_no_merchant_id["SoldBy"].isnull()]
+    df_no_merchant_id["URL"].to_csv("csv_product_url\\" + current_file_name + "_product_url.csv",
+                                     index=False)
+    print("exported ",df_no_merchant_id["URL"].count()," product urls")
+    
     #array of brand_url of respective Amazon stores
     us_brand_url_array = []
     jp_brand_url_array = []
     #loop to create urls using Brand column for respective Amazon store
-    for key, value in df["Brand"].iteritems():
-        #replace blank spce with a "+" for each brand name
+    for value in df["Brand"]:
+        #replace blank space with "+" for each brand name
         value = value.replace(" ", "+")
         #create the urls
-        us_search_url = "https://www.amazon.com/s?rh=n%3A{}%2Cp_89%3A{}"
-        jp_search_url = "https://www.amazon.co.jp/s?rh=n%3A{}%2Cp_89%3A{}"
+        us_search_url = 'https://www.amazon.com/s?rh=n%3A{}%2Cp_89%3A{}'
+        jp_search_url = 'https://www.amazon.co.jp/s?rh=n%3A{}%2Cp_89%3A{}'
         #concantenate category ID and Brand names into url
         us_brand_url = us_search_url.format(selected_US_category,value)
         jp_brand_url = jp_search_url.format(selected_JP_category,value)
+        
         #append brand urls
         us_brand_url_array.append(us_brand_url)
         jp_brand_url_array.append(jp_brand_url)
@@ -142,13 +169,17 @@ for current_file in csv_from_zon:
     #create column for Brand URLs
     df["US_brand_url"] = us_brand_url_array
     df["JP_brand_url"] = jp_brand_url_array
-
+    
+    
+    
     #create column for the clickable links
     df["US_brand_link"] = '<a target="_blank" href=' + df["US_brand_url"] + '><div>' + df["Brand"] + '</div></a>'
     df["JP_brand_link"] = '<a target="_blank" href=' + df["JP_brand_url"] + '><div>' + df["Brand"] + '</div></a>'
     
+    
     #generate and export csv file
     df.to_csv("csv_from_zon_processed\\"+current_file_name+"_processed.csv")
+    
     
 
 print("Finished")
