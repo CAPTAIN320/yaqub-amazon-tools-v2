@@ -1,0 +1,3 @@
+file names in this folder should be:
+
+"category name"_merchant_url.csv
