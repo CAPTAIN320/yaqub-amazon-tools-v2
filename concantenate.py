@@ -73,7 +73,9 @@ def merge_csv(merge_df):# (ouptut_of_merchant, output_of_product)
     
 
 def export_csv(merge_df):
-    merge_df = merge_df[["Brand", 
+    merge_df = merge_df[[
+                         "ASIN",
+                         "Brand", 
                          "SoldBy", 
                          "MerchantID", 
                          "US_brand_link", 
@@ -83,7 +85,9 @@ def export_csv(merge_df):
     merge_df.to_csv("csv_from_zon_processed\\" + current_file_name + "_concantenated.csv")
     
 def export_html(merge_df):
-    merge_df = merge_df[["Brand", 
+    merge_df = merge_df[[
+                         "ASIN",
+                         "Brand", 
                          "SoldBy", 
                          "MerchantID", 
                          "US_brand_link", 
